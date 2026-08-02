@@ -54,13 +54,6 @@ In vacuum it displays `N/A — VACUUM`; all orbital telemetry remains available.
 
 Copy the release ZIP's `GameData` folder into the KSP installation.
 
-Remove older experimental folders if present:
-
-```text
-GameData\PlaneMatchGuidance
-GameData\PlaneMatchDisplay
-```
-
 ## Building
 
 ```powershell
