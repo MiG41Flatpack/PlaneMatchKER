@@ -1,0 +1,18 @@
+{
+  "spec_version": "v1.4",
+  "identifier": "PlaneMatchKER",
+  "name": "Plane Match for Kerbal Engineer",
+  "abstract": "Adds signed target-orbital-plane telemetry and an atmospheric manual bank cue to a PLNE tab in Kerbal Engineer Redux.",
+  "author": "REPLACE_WITH_RELEASE_AUTHOR",
+  "license": "GPL-3.0-or-later",
+  "$kref": "#/ckan/github/REPLACE_OWNER/REPLACE_REPOSITORY",
+  "depends": [
+    { "name": "KerbalEngineerRedux" }
+  ],
+  "install": [
+    {
+      "find": "PlaneMatchKER",
+      "install_to": "GameData"
+    }
+  ]
+}

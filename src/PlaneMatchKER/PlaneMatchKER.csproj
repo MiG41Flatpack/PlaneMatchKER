@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+
+    <AssemblyName>PlaneMatchKER</AssemblyName>
+    <RootNamespace>PlaneMatchKER</RootNamespace>
+
+    <Version>1.0.2</Version>
+    <FileVersion>1.0.2.0</FileVersion>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+
+    <KSPBT_ModRoot>$(MSBuildThisFileDirectory)..\..\GameData\PlaneMatchKER</KSPBT_ModRoot>
+    <KSPBT_ModPluginFolder>Plugins</KSPBT_ModPluginFolder>
+    <KSPBT_GenerateAssemblyAttribute>true</KSPBT_GenerateAssemblyAttribute>
+    <KSPBT_GenerateDependencyAttributes>false</KSPBT_GenerateDependencyAttributes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KSPBuildTools" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ModReference Include="KerbalEngineer">
+      <DLLPath>GameData/KerbalEngineer/KerbalEngineer.dll</DLLPath>
+      <Private>false</Private>
+    </ModReference>
+
+    <ModReference Include="KerbalEngineer.Unity">
+      <DLLPath>GameData/KerbalEngineer/KerbalEngineer.Unity.dll</DLLPath>
+      <Private>false</Private>
+    </ModReference>
+  </ItemGroup>
+
+</Project>

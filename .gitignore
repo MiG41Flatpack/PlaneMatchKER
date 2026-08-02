@@ -1,0 +1,11 @@
+.vs/
+.idea/
+bin/
+obj/
+dist/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+GameData/PlaneMatchKER/Plugins/*.dll
+GameData/PlaneMatchKER/Plugins/*.pdb
