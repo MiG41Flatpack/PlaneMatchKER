@@ -5,7 +5,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$version = '1.0.0'
+$version = '1.0.2'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $solution = Join-Path $repoRoot 'KERRendezvousTools.sln'
 $sourceMod = Join-Path $repoRoot 'GameData\KERRendezvousTools'
@@ -128,7 +128,7 @@ $checksumPath = "$zipPath.sha256"
         -Encoding ASCII
 
 Copy-Item `
-    -LiteralPath (Join-Path $repoRoot 'publishing\GITHUB-RELEASE-NOTES-v1.0.0.md') `
+    -LiteralPath (Join-Path $repoRoot 'publishing\GITHUB-RELEASE-NOTES-v1.0.2.md') `
     -Destination $OutputDirectory `
     -Force
 

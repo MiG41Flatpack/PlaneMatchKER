@@ -1,4 +1,4 @@
-# Migration to KER Rendezvous Tools 1.0.0
+# Migration to KER Rendezvous Tools 1.0.2
 
 `PlaneMatchKER` and `LaunchWindowKER` are now distributed as one assembly.
 

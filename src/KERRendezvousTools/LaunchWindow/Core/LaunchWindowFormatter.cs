@@ -93,6 +93,61 @@ namespace LaunchWindowKER.Core
                 " m/s";
         }
 
+        internal static string Count(
+            double value,
+            int decimals)
+        {
+            if (!WindowGeometry.IsFinite(value))
+            {
+                return "—";
+            }
+
+            return
+                value.ToString(
+                    "#,##0." +
+                    new string(
+                        '0',
+                        Math.Max(
+                            0,
+                            decimals)));
+        }
+
+        internal static string Integer(
+            int value)
+        {
+            return
+                value > 0
+                    ? value.ToString("#,##0")
+                    : "—";
+        }
+
+        internal static string WindowProgress(
+            int evaluated,
+            int maximum)
+        {
+            return
+                evaluated.ToString("#,##0") +
+                " / " +
+                maximum.ToString("#,##0");
+        }
+
+        internal static string BranchAzimuth(
+            string branch,
+            double azimuthDegrees)
+        {
+            if (string.IsNullOrEmpty(branch) ||
+                branch == "—")
+            {
+                return "—";
+            }
+
+            return
+                branch +
+                " / " +
+                Azimuth(
+                    azimuthDegrees);
+        }
+
         internal static string Angle(
             double degrees,
             int decimals)
@@ -160,11 +215,6 @@ namespace LaunchWindowKER.Core
             long totalSeconds =
                 (long)Math.Round(seconds);
 
-            long days =
-                totalSeconds / 86400;
-
-            totalSeconds %= 86400;
-
             long hours =
                 totalSeconds / 3600;
 
@@ -176,21 +226,10 @@ namespace LaunchWindowKER.Core
             long remainingSeconds =
                 totalSeconds % 60;
 
-            if (days > 0)
-            {
-                return
-                    days +
-                    "d " +
-                    hours.ToString("00") +
-                    "h " +
-                    minutes.ToString("00") +
-                    "m";
-            }
-
             if (hours > 0)
             {
                 return
-                    hours +
+                    hours.ToString("#,##0") +
                     "h " +
                     minutes.ToString("00") +
                     "m " +

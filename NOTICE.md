@@ -1,6 +1,6 @@
 # Notices
 
-KER Rendezvous Tools 1.0.0
+KER Rendezvous Tools 1.0.2
 
 Copyright (C) 2026 KER Rendezvous Tools contributors
 

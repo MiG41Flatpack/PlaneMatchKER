@@ -29,20 +29,20 @@ KSP package.
 Create tag:
 
 ```text
-v1.0.0
+v1.0.2
 ```
 
 Paste:
 
 ```text
-publishing\GITHUB-RELEASE-NOTES-v1.0.0.md
+publishing\GITHUB-RELEASE-NOTES-v1.0.2.md
 ```
 
 Upload:
 
 ```text
-dist\KERRendezvousTools-v1.0.0.zip
-dist\KERRendezvousTools-v1.0.0.zip.sha256
+dist\KERRendezvousTools-v1.0.2.zip
+dist\KERRendezvousTools-v1.0.2.zip.sha256
 ```
 
 ## 4. SpaceDock
@@ -50,7 +50,7 @@ dist\KERRendezvousTools-v1.0.0.zip.sha256
 Create a KSP mod with:
 
 - Name: `KER Rendezvous Tools`
-- Version: `1.0.0`
+- Version: `1.0.2`
 - KSP version: `1.12.5`
 - License: `GPLv3` or `GPL-3.0-or-later`
 - ZIP: the same binary ZIP uploaded to GitHub

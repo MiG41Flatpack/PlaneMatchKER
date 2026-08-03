@@ -44,3 +44,6 @@ GPL-3.0-or-later.
 ## Source code
 
 REPLACE_WITH_GITHUB_REPOSITORY_URL
+
+
+Version 1.0.2 fixes flickering GOOD-result rows and stabilizes the long-horizon search against ordinary per-frame orbit jitter.

@@ -7,7 +7,7 @@ namespace KERRendezvousTools.Core
     {
         internal const string Name = "KER Rendezvous Tools";
         internal const string AssemblyName = "KERRendezvousTools";
-        internal const string Version = "1.0.0";
+        internal const string Version = "1.0.2";
         internal const string LogPrefix = "[KERRendezvousTools]";
     }
 }

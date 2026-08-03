@@ -17,6 +17,9 @@ namespace LaunchWindowKER.Core
         private static readonly LaunchWindowSolution solution =
             new LaunchWindowSolution();
 
+        private static readonly GoodWindowSearch goodWindowSearch =
+            new GoodWindowSearch();
+
         private static int lastFrameCount = -1;
         private static double lastForecastUT = double.NaN;
         private static Guid lastTargetId = Guid.Empty;
@@ -114,7 +117,7 @@ namespace LaunchWindowKER.Core
             catch (Exception exception)
             {
                 Debug.LogError(
-                    "[LaunchWindowKER] calculation failed: " +
+                    "[KERRendezvousTools/WIND] calculation failed: " +
                     exception);
 
                 Invalidate(
@@ -313,6 +316,27 @@ namespace LaunchWindowKER.Core
                 lastForecastUT = nowUT;
                 lastTargetId = target.id;
             }
+
+            goodWindowSearch.EnsureConfigured(
+                vessel.id,
+                target.id,
+                target.orbit,
+                body,
+                referenceSeaLevelAtEpoch,
+                referenceEpochUT,
+                orbitNormal,
+                rotationAxis,
+                nowUT,
+                solution.ReferenceLatitudeDegrees,
+                solution.ReferenceLongitudeDegrees);
+
+            goodWindowSearch.Step(
+                target.orbit,
+                nowUT);
+
+            goodWindowSearch.PopulateSolution(
+                solution,
+                nowUT);
         }
 
         private static void UpdateForecastReference(
@@ -1159,6 +1183,9 @@ namespace LaunchWindowKER.Core
                 double.NaN;
 
             ResetForecast();
+            goodWindowSearch.Reset();
+            goodWindowSearch.ClearSolution(
+                solution);
 
             // Force immediate recomputation if the same target is selected
             // again after being cleared.

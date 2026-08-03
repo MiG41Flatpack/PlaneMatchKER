@@ -38,6 +38,26 @@ namespace LaunchWindowKER.Core
         internal string TargetMotionAtPlane = "—";
         internal string NextWindowHeuristic = "—";
 
+        internal string GoodSearchStatus = "—";
+        internal int GoodSearchEvaluatedWindows;
+        internal int GoodSearchMaximumWindows;
+        internal bool GoodSearchFound;
+        internal bool GoodSearchRecurrenceDetected;
+        internal bool GoodSearchLimitReached;
+
+        internal double NextGoodUT = double.NaN;
+        internal double TargetOrbitsToGood = double.NaN;
+        internal double BodyRotationsToGood = double.NaN;
+        internal int GoodWindowNumber;
+        internal string GoodBranch = "—";
+        internal double GoodLaunchAzimuthDegrees = double.NaN;
+        internal double GoodElevationDegrees = double.NaN;
+
+        internal double BestRisingUT = double.NaN;
+        internal double BestRisingElevationDegrees = double.NaN;
+        internal string BestRisingBranch = "—";
+        internal double BestRisingLaunchAzimuthDegrees = double.NaN;
+
         internal double SearchSpanSeconds = double.NaN;
     }
 }

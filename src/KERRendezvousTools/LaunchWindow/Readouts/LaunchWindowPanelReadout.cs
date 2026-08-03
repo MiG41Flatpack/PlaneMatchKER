@@ -189,6 +189,79 @@ namespace LaunchWindowKER.Readouts
                 section);
 
             DrawLine(
+                "Next GOOD @ Ref",
+                solution.GoodSearchFound
+                    ? LaunchWindowFormatter.Countdown(
+                        solution.NextGoodUT,
+                        nowUT)
+                    : solution.GoodSearchStatus,
+                section);
+
+            DrawLine(
+                "GOOD Search Windows",
+                LaunchWindowFormatter.WindowProgress(
+                    solution.GoodSearchEvaluatedWindows,
+                    solution.GoodSearchMaximumWindows),
+                section);
+
+            // Keep a fixed row layout. Values change between SEARCHING and
+            // FOUND, but KER never has to resize the section every few frames.
+            DrawLine(
+                "Target Orbits to GOOD",
+                LaunchWindowFormatter.Count(
+                    solution.TargetOrbitsToGood,
+                    2),
+                section);
+
+            DrawLine(
+                "Body Rotations to GOOD",
+                LaunchWindowFormatter.Count(
+                    solution.BodyRotationsToGood,
+                    2),
+                section);
+
+            DrawLine(
+                "GOOD Window #",
+                LaunchWindowFormatter.Integer(
+                    solution.GoodWindowNumber),
+                section);
+
+            DrawLine(
+                "GOOD Branch / Azimuth",
+                LaunchWindowFormatter.BranchAzimuth(
+                    solution.GoodBranch,
+                    solution.GoodLaunchAzimuthDegrees),
+                section);
+
+            DrawLine(
+                "GOOD Elev @ Plane",
+                LaunchWindowFormatter.Angle(
+                    solution.GoodElevationDegrees,
+                    2),
+                section);
+
+            DrawLine(
+                "Best Rising @ Ref",
+                LaunchWindowFormatter.Countdown(
+                    solution.BestRisingUT,
+                    nowUT),
+                section);
+
+            DrawLine(
+                "Best Rising Elev",
+                LaunchWindowFormatter.Angle(
+                    solution.BestRisingElevationDegrees,
+                    2),
+                section);
+
+            DrawLine(
+                "Best Branch / Azimuth",
+                LaunchWindowFormatter.BranchAzimuth(
+                    solution.BestRisingBranch,
+                    solution.BestRisingLaunchAzimuthDegrees),
+                section);
+
+            DrawLine(
                 "Reference Latitude",
                 LaunchWindowFormatter.Latitude(
                     solution.ReferenceLatitudeDegrees),
