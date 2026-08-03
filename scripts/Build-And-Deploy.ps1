@@ -2,16 +2,38 @@ param(
     [ValidateSet('Debug', 'Release')]
     [string]$Configuration = 'Debug',
 
-    [string]$KspRoot = 'C:\Kerbal Space Program\1.12.5'
+    [string]$KspRoot = 'C:\Kerbal Space Program\1.12.5',
+
+    [switch]$MigrateLegacy
 )
 
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$solution = Join-Path $repoRoot 'PlaneMatchKER.sln'
-$sourceMod = Join-Path $repoRoot 'GameData\PlaneMatchKER'
-$destinationMod = Join-Path $KspRoot 'GameData\PlaneMatchKER'
+$solution = Join-Path $repoRoot 'KERRendezvousTools.sln'
+$sourceMod = Join-Path $repoRoot 'GameData\KERRendezvousTools'
+$destinationMod = Join-Path $KspRoot 'GameData\KERRendezvousTools'
 $kspProperty = "-p:KSPBT_GameRoot=$KspRoot"
+
+$legacyDlls = @(
+    Join-Path $KspRoot 'GameData\PlaneMatchKER\Plugins\PlaneMatchKER.dll'
+    Join-Path $KspRoot 'GameData\LaunchWindowKER\Plugins\LaunchWindowKER.dll'
+) | Where-Object { Test-Path -LiteralPath $_ }
+
+if ($legacyDlls.Count -gt 0) {
+    if (-not $MigrateLegacy) {
+        throw @"
+Legacy standalone DLLs are installed:
+$($legacyDlls -join [Environment]::NewLine)
+
+Run again with -MigrateLegacy so the old folders are removed before deployment.
+"@
+    }
+
+    & (Join-Path $PSScriptRoot 'Migrate-Legacy-Install.ps1') `
+        -KspRoot $KspRoot `
+        -Force
+}
 
 & (Join-Path $PSScriptRoot 'Test-Environment.ps1') `
     -KspRoot $KspRoot
@@ -48,13 +70,13 @@ if ($LASTEXITCODE -ne 0) {
 
 $dll = Join-Path `
     $sourceMod `
-    'Plugins\PlaneMatchKER.dll'
+    'Plugins\KERRendezvousTools.dll'
 
 if (-not (Test-Path -LiteralPath $dll)) {
     throw "Expected DLL was not found at: $dll"
 }
 
-Write-Host "Deploying PlaneMatchKER..."
+Write-Host "Deploying KER Rendezvous Tools..."
 New-Item `
     -ItemType Directory `
     -Path $destinationMod `
@@ -69,5 +91,5 @@ Copy-Item `
 
 Write-Host ""
 Write-Host "Build and deployment succeeded."
-Write-Host "DLL: $destinationMod\Plugins\PlaneMatchKER.dll"
+Write-Host "DLL: $destinationMod\Plugins\KERRendezvousTools.dll"
 Write-Host "Restart KSP before testing."

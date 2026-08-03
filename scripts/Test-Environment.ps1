@@ -17,11 +17,13 @@ function Assert-Path {
     Write-Host "[OK] $Description"
 }
 
-Write-Host "Checking PlaneMatchKER development environment..."
+Write-Host "Checking KER Rendezvous Tools development environment..."
 Write-Host "KSP root: $KspRoot"
 
 Assert-Path $KspRoot 'KSP root directory'
-Assert-Path (Join-Path $KspRoot 'KSP_x64.exe') 'KSP 64-bit executable'
+Assert-Path `
+    (Join-Path $KspRoot 'KSP_x64.exe') `
+    'KSP 64-bit executable'
 Assert-Path `
     (Join-Path $KspRoot 'KSP_x64_Data\Managed\Assembly-CSharp.dll') `
     'KSP Assembly-CSharp.dll'
@@ -43,8 +45,7 @@ $kerVersion =
 Write-Host "[INFO] KER file version: $($kerVersion.FileVersion)"
 
 if ($kerVersion.FileVersion -notlike '1.1.9.5*') {
-    Write-Warning `
-        "This project was prepared and tested against KER 1.1.9.5."
+    Write-Warning "Prepared and tested against KER 1.1.9.5."
 }
 
 try {

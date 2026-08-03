@@ -1,0 +1,28 @@
+{
+  "spec_version": "v1.27",
+  "identifier": "KERRendezvousTools",
+  "name": "KER Rendezvous Tools",
+  "abstract": "Adds launch-window and target-plane rendezvous advisory tabs to Kerbal Engineer Redux.",
+  "author": "REPLACE_WITH_RELEASE_AUTHOR",
+  "license": "GPL-3.0-or-later",
+  "$kref": "#/ckan/github/REPLACE_OWNER/REPLACE_REPOSITORY",
+  "$vref": "#/ckan/ksp-avc",
+  "resources": {
+    "repository": "https://github.com/REPLACE_OWNER/REPLACE_REPOSITORY"
+  },
+  "tags": [
+    "information",
+    "rendezvous"
+  ],
+  "depends": [
+    {
+      "name": "KerbalEngineerRedux"
+    }
+  ],
+  "install": [
+    {
+      "find": "KERRendezvousTools",
+      "install_to": "GameData"
+    }
+  ]
+}

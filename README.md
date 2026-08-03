@@ -1,102 +1,129 @@
-# PlaneMatchKER 1.0.2
+# KER Rendezvous Tools 1.0.0
 
-PlaneMatchKER adds a compact `PLNE` tab to Kerbal Engineer Redux whenever a
-valid same-body target vessel is selected.
+A single Kerbal Engineer Redux companion plugin containing two field-tested
+rendezvous advisory instruments:
 
-It is a **display-only atmospheric lateral flight director**. It never commands
-pitch, roll, yaw, throttle, SAS, staging, or any other flight control.
+- **`WIND` — Launch Window:** live target geometry, sea-level pass prediction,
+  target-plane launch timing, launch azimuth, and a rising-horizon heuristic.
+- **`PLNE` — Plane Match:** signed target-plane offset, relative inclination,
+  normal velocity, short-term plane prediction, and an atmospheric manual bank
+  cue for SSTO ascent.
+
+Both modules are display-only. They never steer, throttle, stage, control SAS,
+or change time warp.
 
 ## Requirements
 
 - Kerbal Space Program 1.12.5
 - Kerbal Engineer Redux 1.1.9.5
 
-AtmosphereAutopilot, MechJeb, Harmony, and ModuleManager are not required.
-
-## Readouts
-
-- Signed plane offset in `+/- km` or metres
-- Signed plane angle
-- Velocity normal to the target plane
-- Predicted plane error after 20 seconds
-- Linear local plane-crossing estimate
-- Relative inclination
-- Atmospheric manual bank cue
-- Capture feasibility within a nominal 20-degree bank
-- Required stopping bank
-- Projected stopping offset
-- Horizontal inertial speed
-
-## Meaning of the signs
-
-Positive plane offset means the active craft is on the side pointed to by the
-target orbit's **directed orbital normal**. Negative means the opposite side.
-
-These signs are orbital-normal and orbital-antinormal—not necessarily geographic
-north and south.
-
-`Plane Offset = 0` means the craft is crossing the target plane. It does not by
-itself mean the craft's velocity is aligned with that plane. Relative
-inclination and normal velocity show the remaining alignment error.
-
-## Atmospheric cue scope
-
-The bank cue is advisory and is shown only when:
-
-- the craft is airborne;
-- horizontal inertial speed is at least 25 m/s;
-- dynamic pressure is at least 0.05 kPa;
-- the current track gives useful bank-to-plane authority.
-
-In vacuum it displays `N/A — VACUUM`; all orbital telemetry remains available.
+MechJeb, AtmosphereAutopilot, ModuleManager, Harmony, and Kerbalism are optional
+and are not dependencies.
 
 ## Installation
 
-Copy the release ZIP's `GameData` folder into the KSP installation.
+The public binary ZIP installs as:
 
-## Building
+```text
+GameData/
+└── KERRendezvousTools/
+    ├── Plugins/
+    │   └── KERRendezvousTools.dll
+    ├── KERRendezvousTools.version
+    ├── README.md
+    ├── CHANGELOG.md
+    ├── MIGRATION.md
+    ├── LICENSE
+    └── NOTICE.md
+```
+
+### Required migration from the standalone builds
+
+Delete these old folders before installing the combined suite:
+
+```text
+GameData\PlaneMatchKER
+GameData\LaunchWindowKER
+```
+
+The combined DLL deliberately refuses to register its KER tabs if either legacy
+standalone assembly is loaded, preventing two periodic injectors from fighting
+over `WIND` and `PLNE`.
+
+For a local development install:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-.\scripts\Test-Environment.ps1
-.\scripts\Build-And-Deploy.ps1
+.\scripts\Build-And-Deploy.ps1 -MigrateLegacy
 ```
 
-The build script passes the KSP path directly to MSBuild. No machine-specific
-`.csproj.user` file is required.
+## Build
 
-## Packaging a binary release
+The build project targets .NET Framework 4.7.2 and uses KSPBuildTools 1.1.1.
+
+```powershell
+.\scripts\Test-Environment.ps1
+.\scripts\Build-And-Deploy.ps1 -MigrateLegacy
+```
+
+The KSP root defaults to:
+
+```text
+C:\Kerbal Space Program\1.12.5
+```
+
+Override it with `-KspRoot`.
+
+## Make the public binary ZIP
 
 ```powershell
 .\scripts\Package-Release.ps1
 ```
 
-This creates:
+Output:
 
 ```text
-dist\PlaneMatchKER-v1.0.2.zip
+dist\KERRendezvousTools-v1.0.0.zip
+dist\KERRendezvousTools-v1.0.0.zip.sha256
 ```
 
-with `GameData` at the ZIP root.
+Upload the same binary ZIP to GitHub Releases and SpaceDock.
 
-## Privacy and control safety
+## `WIND` scope
 
-PlaneMatchKER:
+`WIND` provides generic geometry and launch-opportunity timing. It does not have
+a vehicle ascent profile and does not promise a synchronized insertion and
+velocity match.
+
+Informal test flights produced close spatial intercepts with different launcher
+families, including approximately 2.1 km with high relative velocity. The
+separate `Relative Speed` row exists so a close flyby cannot be mistaken for a
+dockable rendezvous.
+
+After liftoff, forecast rows remain tied to the launch site while live range,
+range rate, relative speed, elevation, and azimuth follow the active vessel.
+
+## `PLNE` scope
+
+`PLNE` is an atmospheric flight director for manually flown shallow-ascent SSTO
+spaceplanes. It helps reduce expensive post-insertion plane changes. The bank
+cue is inhibited in vacuum and at inadequate dynamic pressure; orbital telemetry
+remains available.
+
+## Safety and privacy
+
+The suite:
 
 - performs no network communication;
 - collects or uploads no telemetry;
-- does not access or change SAS;
-- does not register fly-by-wire or autopilot callbacks;
-- does not write `FlightCtrlState`.
-
-## Compatibility
-
-The supported and tested baseline is KSP 1.12.5 with KER 1.1.9.5. Older or
-modified KER builds are not guaranteed.
+- does not write `FlightCtrlState`;
+- registers no fly-by-wire or autopilot callback;
+- does not control SAS, staging, throttle, or time warp.
 
 ## License
 
-GPL-3.0-or-later. PlaneMatchKER directly links against Kerbal Engineer Redux,
-which is distributed under GPL version 3 or later.
+GPL-3.0-or-later. This suite directly links against Kerbal Engineer Redux, whose
+source is distributed under GNU GPL version 3 or, at your option, any later
+version.
 
 See `LICENSE` and `NOTICE.md`.

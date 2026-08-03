@@ -1,9 +1,9 @@
 {
-  "NAME": "PlaneMatchKER",
+  "NAME": "KER Rendezvous Tools",
   "VERSION": {
     "MAJOR": 1,
     "MINOR": 0,
-    "PATCH": 2,
+    "PATCH": 0,
     "BUILD": 0
   },
   "KSP_VERSION": {

@@ -5,10 +5,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$version = '1.0.2'
+$version = '1.0.0'
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$solution = Join-Path $repoRoot 'PlaneMatchKER.sln'
-$sourceMod = Join-Path $repoRoot 'GameData\PlaneMatchKER'
+$solution = Join-Path $repoRoot 'KERRendezvousTools.sln'
+$sourceMod = Join-Path $repoRoot 'GameData\KERRendezvousTools'
 $kspProperty = "-p:KSPBT_GameRoot=$KspRoot"
 
 if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
@@ -17,6 +17,12 @@ if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
 
 & (Join-Path $PSScriptRoot 'Test-Environment.ps1') `
     -KspRoot $KspRoot
+
+New-Item `
+    -ItemType Directory `
+    -Path $OutputDirectory `
+    -Force |
+    Out-Null
 
 Write-Host "Building release..."
 & dotnet clean `
@@ -48,7 +54,7 @@ if ($LASTEXITCODE -ne 0) {
 
 $dll = Join-Path `
     $sourceMod `
-    'Plugins\PlaneMatchKER.dll'
+    'Plugins\KERRendezvousTools.dll'
 
 if (-not (Test-Path -LiteralPath $dll)) {
     throw "Expected release DLL was not found at: $dll"
@@ -56,15 +62,15 @@ if (-not (Test-Path -LiteralPath $dll)) {
 
 $stagingRoot = Join-Path `
     $OutputDirectory `
-    "PlaneMatchKER-v$version"
+    "KERRendezvousTools-v$version"
 
 $stagingMod = Join-Path `
     $stagingRoot `
-    'GameData\PlaneMatchKER'
+    'GameData\KERRendezvousTools'
 
 $zipPath = Join-Path `
     $OutputDirectory `
-    "PlaneMatchKER-v$version.zip"
+    "KERRendezvousTools-v$version.zip"
 
 if (Test-Path -LiteralPath $stagingRoot) {
     Remove-Item `
@@ -87,35 +93,54 @@ New-Item `
 
 Copy-Item `
     -LiteralPath $dll `
-    -Destination (Join-Path $stagingMod 'Plugins\PlaneMatchKER.dll')
+    -Destination (Join-Path $stagingMod 'Plugins\KERRendezvousTools.dll')
 
 Copy-Item `
-    -LiteralPath (Join-Path $sourceMod 'PlaneMatchKER.version') `
+    -LiteralPath (Join-Path $sourceMod 'KERRendezvousTools.version') `
     -Destination $stagingMod
 
-Copy-Item `
-    -LiteralPath (Join-Path $repoRoot 'README.md') `
-    -Destination (Join-Path $stagingMod 'README.md')
-
-Copy-Item `
-    -LiteralPath (Join-Path $repoRoot 'CHANGELOG.md') `
-    -Destination (Join-Path $stagingMod 'CHANGELOG.md')
-
-Copy-Item `
-    -LiteralPath (Join-Path $repoRoot 'LICENSE') `
-    -Destination (Join-Path $stagingMod 'LICENSE')
-
-Copy-Item `
-    -LiteralPath (Join-Path $repoRoot 'NOTICE.md') `
-    -Destination (Join-Path $stagingMod 'NOTICE.md')
+foreach ($name in @(
+    'README.md',
+    'CHANGELOG.md',
+    'LICENSE',
+    'NOTICE.md',
+    'MIGRATION.md'
+)) {
+    Copy-Item `
+        -LiteralPath (Join-Path $repoRoot $name) `
+        -Destination (Join-Path $stagingMod $name)
+}
 
 Compress-Archive `
     -Path (Join-Path $stagingRoot 'GameData') `
     -DestinationPath $zipPath `
     -CompressionLevel Optimal
 
+$hash =
+    (Get-FileHash `
+        -LiteralPath $zipPath `
+        -Algorithm SHA256).Hash.ToLowerInvariant()
+
+$checksumPath = "$zipPath.sha256"
+"$hash  $([IO.Path]::GetFileName($zipPath))" |
+    Set-Content `
+        -LiteralPath $checksumPath `
+        -Encoding ASCII
+
+Copy-Item `
+    -LiteralPath (Join-Path $repoRoot 'publishing\GITHUB-RELEASE-NOTES-v1.0.0.md') `
+    -Destination $OutputDirectory `
+    -Force
+
+Copy-Item `
+    -LiteralPath (Join-Path $repoRoot 'publishing\SPACEDOCK-DESCRIPTION.md') `
+    -Destination $OutputDirectory `
+    -Force
+
 Write-Host ""
 Write-Host "Release package created:"
 Write-Host $zipPath
+Write-Host "SHA-256:"
+Write-Host $hash
 Write-Host ""
-Write-Host "ZIP root contains GameData\PlaneMatchKER."
+Write-Host "Upload the same binary ZIP to GitHub Releases and SpaceDock."

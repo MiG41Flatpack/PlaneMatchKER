@@ -7,5 +7,5 @@ dist/
 *.suo
 *.userosscache
 *.sln.docstates
-GameData/PlaneMatchKER/Plugins/*.dll
-GameData/PlaneMatchKER/Plugins/*.pdb
+GameData/KERRendezvousTools/Plugins/*.dll
+GameData/KERRendezvousTools/Plugins/*.pdb

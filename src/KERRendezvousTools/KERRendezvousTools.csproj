@@ -6,19 +6,19 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
 
-    <AssemblyName>PlaneMatchKER</AssemblyName>
-    <RootNamespace>PlaneMatchKER</RootNamespace>
+    <AssemblyName>KERRendezvousTools</AssemblyName>
+    <RootNamespace>KERRendezvousTools</RootNamespace>
 
-    <Version>1.0.2</Version>
-    <FileVersion>1.0.2.0</FileVersion>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
 
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 
-    <KSPBT_ModRoot>$(MSBuildThisFileDirectory)..\..\GameData\PlaneMatchKER</KSPBT_ModRoot>
+    <KSPBT_ModRoot>$(MSBuildThisFileDirectory)..\..\GameData\KERRendezvousTools</KSPBT_ModRoot>
     <KSPBT_ModPluginFolder>Plugins</KSPBT_ModPluginFolder>
     <KSPBT_GenerateAssemblyAttribute>true</KSPBT_GenerateAssemblyAttribute>
     <KSPBT_GenerateDependencyAttributes>false</KSPBT_GenerateDependencyAttributes>
